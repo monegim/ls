@@ -22,9 +22,12 @@ var rootCmd = &cobra.Command{
 		if err != nil {
 			log.Fatal(err)
 		}
+		s := ""
 		for _, file := range files {
-			fmt.Println(file.Name())
+			fileName := file.Name()
+			s += fmt.Sprintf("%s  ", fileName)
 		}
+		fmt.Println(s)
 	},
 }
 
