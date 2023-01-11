@@ -6,8 +6,10 @@ import (
 	"os"
 	"strings"
 
+	"github.com/monegim/ls/pkg/ls"
 	"github.com/spf13/cobra"
 )
+
 const (
 	InfoColor    = "\033[1;34m%s\033[0m"
 	NoticeColor  = "\033[1;36m%s\033[0m"
@@ -15,6 +17,7 @@ const (
 	ErrorColor   = "\033[1;31m%s\033[0m"
 	DebugColor   = "\033[0;36m%s\033[0m"
 )
+
 var version = "0.0.1"
 var rootCmd = &cobra.Command{
 	Use:     "ls",
@@ -31,7 +34,7 @@ var rootCmd = &cobra.Command{
 		s := ""
 		for _, file := range files {
 			fileName := file.Name()
-			if !strings.HasPrefix(fileName, ".") {
+			if !ls.IsHiddenFile(fileName) {
 				s += fmt.Sprintf("%s  ", fileName)
 			}
 		}
