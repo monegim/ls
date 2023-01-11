@@ -5,6 +5,7 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
+	"strings"
 
 	"github.com/spf13/cobra"
 )
@@ -25,7 +26,9 @@ var rootCmd = &cobra.Command{
 		s := ""
 		for _, file := range files {
 			fileName := file.Name()
-			s += fmt.Sprintf("%s  ", fileName)
+			if !strings.HasPrefix(fileName, ".") {
+				s += fmt.Sprintf("%s  ", fileName)
+			}
 		}
 		fmt.Println(s)
 	},
