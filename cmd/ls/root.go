@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"log"
 	"os"
-	"strings"
 
 	"github.com/monegim/ls/pkg/ls"
 	"github.com/spf13/cobra"
