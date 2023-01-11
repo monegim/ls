@@ -2,6 +2,8 @@ package ls
 
 import (
 	"fmt"
+	"io/ioutil"
+	"log"
 	"os"
 
 	"github.com/spf13/cobra"
@@ -15,7 +17,14 @@ var rootCmd = &cobra.Command{
 	Args:    cobra.ArbitraryArgs,
 	Version: version,
 	Run: func(cmd *cobra.Command, args []string) {
-
+		path := args[0]
+		files, err := ioutil.ReadDir(path)
+		if err != nil {
+			log.Fatal(err)
+		}
+		for _, file := range files {
+			fmt.Println(file.Name())
+		}
 	},
 }
 
