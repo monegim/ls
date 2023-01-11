@@ -2,7 +2,6 @@ package ls
 
 import (
 	"fmt"
-	"io/ioutil"
 	"log"
 	"os"
 	"strings"
@@ -19,7 +18,7 @@ var rootCmd = &cobra.Command{
 	Version: version,
 	Run: func(cmd *cobra.Command, args []string) {
 		path := args[0]
-		files, err := ioutil.ReadDir(path)
+		files, err := os.ReadDir(path)
 		if err != nil {
 			log.Fatal(err)
 		}
