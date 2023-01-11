@@ -2,19 +2,10 @@ package ls
 
 import (
 	"fmt"
-	"log"
 	"os"
 
 	"github.com/monegim/ls/pkg/ls"
 	"github.com/spf13/cobra"
-)
-
-const (
-	InfoColor    = "\033[1;34m%s\033[0m"
-	NoticeColor  = "\033[1;36m%s\033[0m"
-	WarningColor = "\033[1;33m%s\033[0m"
-	ErrorColor   = "\033[1;31m%s\033[0m"
-	DebugColor   = "\033[0;36m%s\033[0m"
 )
 
 var version = "0.0.1"
@@ -24,21 +15,7 @@ var rootCmd = &cobra.Command{
 	Long:    "It acts like linux ls",
 	Args:    cobra.ArbitraryArgs,
 	Version: version,
-	Run: func(cmd *cobra.Command, args []string) {
-		path := args[0]
-		files, err := os.ReadDir(path)
-		if err != nil {
-			log.Fatal(err)
-		}
-		s := ""
-		for _, file := range files {
-			fileName := file.Name()
-			if !ls.IsHiddenFile(fileName) {
-				s += fmt.Sprintf("%s  ", fileName)
-			}
-		}
-		fmt.Println(s)
-	},
+	Run:     ls.Ls,
 }
 
 func Execute() {
