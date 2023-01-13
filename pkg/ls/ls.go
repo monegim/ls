@@ -2,6 +2,7 @@ package ls
 
 import (
 	"fmt"
+	"io/fs"
 	"log"
 	"os"
 
@@ -34,6 +35,11 @@ func Ls(cmd *cobra.Command, args []string) {
 	if err != nil {
 		log.Fatal(err)
 	}
+	s := simpleLS(files)
+	fmt.Println(s)
+}
+
+func simpleLS(files []fs.FileInfo) string {
 	s := ""
 	for _, file := range files {
 		fileName := file.Name()
@@ -46,5 +52,5 @@ func Ls(cmd *cobra.Command, args []string) {
 			s += fmt.Sprintf("%s  ", fileName)
 		}
 	}
-	fmt.Println(s)
+	return s
 }
