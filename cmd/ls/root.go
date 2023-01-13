@@ -23,3 +23,7 @@ func Execute() {
 		fmt.Fprintf(os.Stderr, "Whoops. There was an error while executing your CLI %s", err)
 	}
 }
+
+func init() {
+	rootCmd.PersistentFlags().BoolP("all","a", false, "do not ignore entries starting with .")
+}

@@ -24,8 +24,10 @@ func isHiddenFile(name string) bool {
 type file = os.File
 
 func Ls(cmd *cobra.Command, args []string) {
+	flags := cmd.Flags()
+	a, _ := flags.GetBool("all")
 	path := args[0]
-	// files, err := os.ReadDir(path)
+
 	f, err := os.Open(path)
 	if err != nil {
 		log.Fatal(err)
@@ -35,7 +37,13 @@ func Ls(cmd *cobra.Command, args []string) {
 	if err != nil {
 		log.Fatal(err)
 	}
-	s := simpleLS(files)
+
+	s := ""
+	if flags.NFlag() == 0 {
+		s = simpleLS(files)
+	} else if a {
+		s = lsA(files)
+	}
 	fmt.Println(s)
 }
 
@@ -46,6 +54,21 @@ func simpleLS(files []fs.FileInfo) string {
 		if isHiddenFile(fileName) {
 			continue
 		} else if file.IsDir() {
+			s += fmt.Sprintf(InfoColor, fileName)
+			s += "  "
+		} else {
+			s += fmt.Sprintf("%s  ", fileName)
+		}
+	}
+	return s
+}
+
+func lsA(files []fs.FileInfo) string {
+	// ls -a
+	s := ""
+	for _, file := range files {
+		fileName := file.Name()
+		if file.IsDir() {
 			s += fmt.Sprintf(InfoColor, fileName)
 			s += "  "
 		} else {
