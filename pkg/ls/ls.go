@@ -26,8 +26,12 @@ type file = os.File
 func Ls(cmd *cobra.Command, args []string) {
 	flags := cmd.Flags()
 	a, _ := flags.GetBool("all")
-	path := args[0]
-
+	path := ""
+	if len(args) == 0 {
+		path = "."
+	} else {
+		path = args[0]
+	}
 	f, err := os.Open(path)
 	if err != nil {
 		log.Fatal(err)
