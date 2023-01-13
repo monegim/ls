@@ -26,4 +26,5 @@ func Execute() {
 
 func init() {
 	rootCmd.PersistentFlags().BoolP("all","a", false, "do not ignore entries starting with .")
+	rootCmd.PersistentFlags().BoolP("list","l", false, "use a long listing format")
 }
