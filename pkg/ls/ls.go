@@ -26,6 +26,7 @@ type file = os.File
 func Ls(cmd *cobra.Command, args []string) {
 	flags := cmd.Flags()
 	a, _ := flags.GetBool("all")
+	l, _ := flags.GetBool("list")
 	path := ""
 	if len(args) == 0 {
 		path = "."
@@ -45,6 +46,8 @@ func Ls(cmd *cobra.Command, args []string) {
 	s := ""
 	if flags.NFlag() == 0 {
 		s = simpleLS(files)
+	} else if l {
+		s = lsL(files)
 	} else if a {
 		s = lsA(files)
 	}
@@ -78,6 +81,28 @@ func lsA(files []fs.FileInfo) string {
 		} else {
 			s += fmt.Sprintf("%s  ", fileName)
 		}
+	}
+	return s
+}
+
+func lsL(files []fs.FileInfo) string {
+	// ls -a
+	s := ""
+	for _, file := range files {
+		// fileName := file.Name()
+		// if file.IsDir() {
+		// 	s += fmt.Sprintf(InfoColor, fileName)
+		// 	s += "  "
+		// } else {
+		// 	s += fmt.Sprintf("%s  ", fileName)
+		// }
+		s += fmt.Sprintf("%s %d %s %s\n", 
+			file.Mode(), 
+
+			file.Size(),
+			file.ModTime(),
+			file.Name(),
+				)	
 	}
 	return s
 }
