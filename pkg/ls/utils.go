@@ -19,7 +19,7 @@ func getNames(uid, gid uint32) (string, string, error) {
 	if err != nil {
 		return "", "", err
 	}
-	group = g.Gid
+	group = g.Name
 	return usr, group, nil
 }
 
