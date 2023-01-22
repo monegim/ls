@@ -26,5 +26,6 @@ func TestGetOwnerShip(t *testing.T) {
 	assert.NoError(t, err)
 	uid, gid := getOwnership(info)
 	t.Log(uid)
-	t.Log(gid)
+	assert.Equal(t, int(uid), 1000)
+	assert.Equal(t, int(gid), 1000)
 }
