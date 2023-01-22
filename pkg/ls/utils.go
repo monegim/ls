@@ -2,6 +2,7 @@ package ls
 
 import (
 	"os"
+	"os/user"
 	"strconv"
 	"syscall"
 )
@@ -9,9 +10,17 @@ import (
 func getNames(uid, gid uint32) (string, string, error) {
 	usr := strconv.FormatUint(uint64(uid), 10)
 	group := strconv.FormatUint(uint64(gid), 10)
-	_, _ = usr, group
-	// if u, err := user.Lo
-	return "", "", nil
+	u, err := user.LookupId(usr)
+	if err != nil {
+		return "", "", err
+	}
+	usr = u.Username
+	g, err := user.LookupGroupId(group)
+	if err != nil {
+		return "", "", err
+	}
+	group = g.Gid
+	return usr, group, nil
 }
 
 func getOwnership(info os.FileInfo) (uid, gid uint32) {
