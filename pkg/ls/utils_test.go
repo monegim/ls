@@ -8,16 +8,14 @@ import (
 )
 
 func TestGetNames(t *testing.T) {
-	// path := "ls.go"
-	// // info, err := os.Stat(path)
-	// f, err := os.Open(path)
-	// assert.NoError(t, err)
-	// defer f.Close()
-	// file, err := f.ReadDir(1)
-	// info := file[0].Info()
-	// assert.NoError(t, err)
-	// stat := info.Sys().(*syscall.Stat_t)
-	// _ = stat
+	path := "ls.go"
+	info, err := os.Stat(path)
+	assert.NoError(t, err)
+	uid, gid := getOwnership(info)
+	user, group, err := getNames(uid, gid)
+	assert.NoError(t, err)
+	assert.Equal(t, user, "mostafa")
+	assert.Equal(t, group, "mostafa")
 }
 
 func TestGetOwnerShip(t *testing.T) {
