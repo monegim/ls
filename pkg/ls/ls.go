@@ -89,6 +89,12 @@ func lsL(files []fs.FileInfo) string {
 	// ls -a
 	s := ""
 	for _, file := range files {
+		uid, gid := getOwnership(file)
+		user, group, err := getNames(uid, gid)
+		if err != nil {
+			log.Fatal(err)
+			return ""
+		}
 		// fileName := file.Name()
 		// if file.IsDir() {
 		// 	s += fmt.Sprintf(InfoColor, fileName)
@@ -96,9 +102,9 @@ func lsL(files []fs.FileInfo) string {
 		// } else {
 		// 	s += fmt.Sprintf("%s  ", fileName)
 		// }
-		s += fmt.Sprintf("%s %d %s %s\n", 
+		s += fmt.Sprintf("%s %s %s %d %s %s\n", 
 			file.Mode(), 
-
+			user, group,
 			file.Size(),
 			file.ModTime(),
 			file.Name(),
