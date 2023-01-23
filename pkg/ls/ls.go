@@ -5,6 +5,7 @@ import (
 	"io/fs"
 	"log"
 	"os"
+	"text/tabwriter"
 
 	"github.com/spf13/cobra"
 )
@@ -102,13 +103,16 @@ func lsL(files []fs.FileInfo) string {
 		// } else {
 		// 	s += fmt.Sprintf("%s  ", fileName)
 		// }
-		s += fmt.Sprintf("%s %s %s %d %s %s\n", 
-			file.Mode(), 
-			user, group,
+		w := tabwriter.NewWriter(os.Stdout, 1, 1, 1, ' ', tabwriter.AlignRight)
+		fmt.Fprintf(w, "%s\t%s\t%s\t%d\t%s\t%s\n",
+			file.Mode(),
+			user,
+			group,
 			file.Size(),
-			file.ModTime(),
+			file.ModTime().Format("Jan 02 15:04"),
 			file.Name(),
-				)	
+		)
+		w.Flush()
 	}
 	return s
 }
